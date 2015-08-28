@@ -1,8 +1,6 @@
 require 'io/console'
 
 class Player
-
-
   attr_accessor :color
   attr_reader :board, :name
 
@@ -14,7 +12,7 @@ class Player
     board.piece_at(origin).color == color
   end
 
-  ## added to allow deselecting
+  #To allow deselecting
   def valid_move?(origin, destination)
     raise InvalidMoveError if origin == destination
     board.piece_at(origin).valid_moves.include?(destination)
@@ -23,9 +21,7 @@ end
 
 class HumanPlayer < Player
   ARROWS = ["\e[A", "\e[B", "\e[C", "\e[D"]
-  # input loop
-  # if input is an arrow key, update the board cursor
-  # if input is ENTER, return the cursor position
+
   def get_move
     begin
       origin = get_point
@@ -75,7 +71,7 @@ class HumanPlayer < Player
 
     until action == " "
       action = get_movement
-      abort("Bye") if action == "q"
+      abort("Goodbye") if action == "q"
       raise SaveGameError if action == "s"
       next unless ARROWS.include?(action)
       board.map_deltas(action)
@@ -85,10 +81,6 @@ class HumanPlayer < Player
 
     board.cursor
   end
-end
-
-
-class ComputerPlayer < Player
 end
 
 class InvalidMoveError < StandardError

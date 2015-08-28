@@ -3,7 +3,6 @@ require_relative 'board'
 require 'yaml'
 
 class Game
-
   def self.from_file(file_name)
     YAML.load_file(file_name)
   end
@@ -29,14 +28,14 @@ class Game
   end
 
   def save_game
-    puts "What would you like to call the game?"
+    puts "How would you like to call the game?"
     File.open(gets.chomp, 'w') do |f|
       f.puts self.to_yaml
     end
   end
 
   def quit?
-    puts "q to quit, anything else to continue"
+    puts "q to quit, any other key to continue"
     gets.chomp.downcase == "q"
   end
 
@@ -51,7 +50,6 @@ class Game
 
   def take_turn
     move = players.first.get_move
-    #return if move == :save
     board.move_piece(move)
     board.display
     players.rotate!
@@ -67,7 +65,7 @@ class Game
 end
 
 if __FILE__ == $PROGRAM_NAME
-  puts "Would you like to (l)oad or start a (n)ew game."
+  puts "Would you like to (l)oad an existing game or start a (n)ew game."
   answer = gets.chomp.downcase
   if answer == "l"
     puts "Please enter the file name:"
@@ -78,7 +76,3 @@ if __FILE__ == $PROGRAM_NAME
   end
   game.run
 end
-
-## TO DO- ##############################################
-# -add board#deep_dup
-# -add movement into check filter

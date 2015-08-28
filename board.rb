@@ -1,7 +1,6 @@
 require 'colorize'
 require 'set'
 require_relative 'pieces'
-require 'byebug'
 
 class Board
   CURSOR_DELTAS = {
@@ -20,8 +19,7 @@ class Board
       set_positions
       @selected_piece = EmptySquare.new
     else
-      # sentinel pattern
-      # @sentinel = EmptySquare.new
+      #Sentinel pattern
       @grid = Array.new(8) { Array.new(8) { EmptySquare.new } }
     end
   end
@@ -46,8 +44,14 @@ class Board
     display_rows
     display_index_row
     display_players_in_check
-    bg_color = other_color(selected_piece.color)
-    puts "selected piece: #{selected_piece.to_s.colorize(background: bg_color)}" unless selected_piece.empty?
+    display_selected_piece
+  end
+
+  def display_selected_piece
+    unless selected_piece.empty?
+      bg_color = other_color(selected_piece.color)
+      puts "selected piece: #{selected_piece.to_s.colorize(background: bg_color)}"
+    end
   end
 
   def display_players_in_check
@@ -60,7 +64,6 @@ class Board
   end
 
   def update_square_sets
-
     if selected_piece.empty?
       @selected_piece_moves = [].to_set
       @attack_pieces = [].to_set
@@ -71,6 +74,7 @@ class Board
         piece.pos
       end.to_set
     end
+
     @cursor_piece_moves = Set.new(piece_at(cursor).valid_moves)
     @attack_pieces = @selected_piece_moves & opp_pieces
   end
@@ -129,7 +133,6 @@ class Board
     !self[pos].empty?
   end
 
-  #Returns the instance of the piece
   def piece_at(pos)
     self[pos]
   end
@@ -177,14 +180,12 @@ class Board
   end
 
   private
-
     def generate_board
       board = []
+
       board << piece_set(:black)
       board << pawn_set(:black)
-
       4.times { board << empty_set }
-
       board << pawn_set(:white)
       board << piece_set(:white)
 
