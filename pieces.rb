@@ -182,6 +182,7 @@ class Pawn < Piece
         small_step = pos.map.with_index { |el, i| el + intermediate_delta[i] }
         next if moved || board.occupied?(small_step)
       end
+      
       next_step = pos.map.with_index { |el, i| el + step[i] }
       next unless board.on_board?(next_step)
       moves << next_step unless board.occupied?(next_step)

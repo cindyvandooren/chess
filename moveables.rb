@@ -13,7 +13,7 @@ module Slideable
         elsif board.piece_at(next_pos).empty?
           moves << next_pos
           current_pos = next_pos
-        else ## it must be an opposing player piece
+        else
           moves << next_pos
           wall_hit = true
         end
